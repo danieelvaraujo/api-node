@@ -17,8 +17,8 @@ function isAuthenticated(
   const [, token] = authHeader.split(' ');
 
   try {
-    const decodeToken = verify(token, authConfig.jwt.secret);
-
+    const decodedToken = verify(token, authConfig.jwt.secret);
+    const { sub } = decodedToken;
     return next();
   } catch {
     throw new AppError('Invalid JWT.');
