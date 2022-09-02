@@ -15,6 +15,6 @@ export interface ISendMail {
 }
 
 export interface IParseEmailTemplate {
-  template: string;
+  file: string;
   variables: ITemplateVariable;
 }
