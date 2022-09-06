@@ -3,6 +3,8 @@ import { getCustomRepository } from 'typeorm';
 import AppError from '@shared/errors/AppError';
 import Product from '../typeorm/entities/Product';
 import ProductsRepository from '../typeorm/repositories/ProductsRepository';
+import RedisCache from '@shared/cache/RedisCache';
+import { redisEnv } from '@shared/redis-env';
 
 interface IRequest {
   name: string;
@@ -13,6 +15,7 @@ interface IRequest {
 class CreateProductService {
   public async execute({ name, price, quantity }: IRequest): Promise<Product> {
     const productsRepository = getCustomRepository(ProductsRepository);
+    const redisCache = new RedisCache();
     const productExists = await productsRepository.findByName(name);
 
     if (productExists) {
@@ -25,6 +28,7 @@ class CreateProductService {
       quantity,
     });
 
+    await redisCache.invalidade(redisEnv.productListKey);
     await productsRepository.save(product);
 
     return product;
