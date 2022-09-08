@@ -1,25 +1,26 @@
 import { getCustomRepository } from 'typeorm';
-import { hash } from 'bcryptjs';
 
 import AppError from '@shared/errors/AppError';
 import User from '../infra/typeorm/entities/User';
 import UsersRepository from '../infra/typeorm/repositories/UsersRepository';
+import BcryptHashProvider from '../providers/HashProvider/implementations/BcryptHashProvider';
 
 interface IRequest {
   name: string;
   email: string;
   password: string;
 }
-
 class CreateUserService {
   public async execute({ name, email, password }: IRequest): Promise<User> {
     const usersRepository = getCustomRepository(UsersRepository);
+    const hashContainer = new BcryptHashProvider();
+
     const emailExists = await usersRepository.findByEmail(email);
     if (emailExists) {
       throw new AppError('Email address already used.');
     }
 
-    const hashedPassword = await hash(password, 8);
+    const hashedPassword = await hashContainer.generateHash(password);
     const user = usersRepository.create({
       name,
       email,
