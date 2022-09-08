@@ -10,7 +10,7 @@ import routes from './routes';
 import AppError from '@shared/errors/AppError';
 import rateLimiter from '@shared/infra/http/middlewares/rateLimiter';
 import uploadConfig from '@config/upload';
-import '@shared/typeorm';
+import '@shared/infra/typeorm';
 
 const app = express();
 app.use(cors());
