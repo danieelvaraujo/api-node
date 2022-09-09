@@ -1,9 +1,8 @@
 import AppError from '@shared/errors/AppError';
 import { injectable, inject } from 'tsyringe';
 
-import CustomersRepository from '../infra/typeorm/repositories/CustomersRepository';
 import { ICustomersRepository } from '../domain/repositories/ICustomersRepository';
-import { IDeleteCustomer } from '../domain/models/IDeleteCustomer';
+import { IFindCustomer } from '../domain/models/IFindCustomer';
 
 @injectable()
 class DeleteCustomerService {
@@ -12,7 +11,7 @@ class DeleteCustomerService {
     private customersRepository: ICustomersRepository,
   ) {}
 
-  public async execute({ id }: IDeleteCustomer): Promise<void> {
+  public async execute({ id }: IFindCustomer): Promise<void> {
     const customer = await this.customersRepository.findById(id);
     if (!customer) {
       throw new AppError('Customer not found.');
