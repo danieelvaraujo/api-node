@@ -2,7 +2,7 @@ import { ICreateCustomer } from '../models/ICreateCustomer';
 import { ICustomer } from '../models/ICustomer';
 import { IListCustomer } from '../models/IListCustomer';
 
-interface SearchParams {
+export interface SearchParams {
   page: number;
   skip: number;
   take: number;
