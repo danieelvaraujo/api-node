@@ -1,5 +1,5 @@
 import { ICreateCustomer } from '@modules/customers/domain/models/ICreateCustomer';
-import { IListCustomer } from '@modules/customers/domain/models/IListCustomer';
+import { ICustomerPaginate } from '@modules/customers/domain/models/ICustomerPaginate';
 import {
   ICustomersRepository,
   SearchParams,
@@ -66,7 +66,7 @@ class CustomersRepository implements ICustomersRepository {
     page,
     skip,
     take,
-  }: SearchParams): Promise<IListCustomer> {
+  }: SearchParams): Promise<ICustomerPaginate> {
     const [customers, count] = await this.ormRepository
       .createQueryBuilder()
       .skip(skip)

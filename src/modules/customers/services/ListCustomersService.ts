@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 
-import { IListCustomer } from '../domain/models/IListCustomer';
+import { ICustomerPaginate } from '../domain/models/ICustomerPaginate';
 import { ICustomersRepository } from '../domain/repositories/ICustomersRepository';
 
 interface SearchParams {
@@ -13,7 +13,10 @@ class ListCustomersService {
     @inject('CustomersRepository')
     private customersRepository: ICustomersRepository,
   ) {}
-  public async execute({ page, limit }: SearchParams): Promise<IListCustomer> {
+  public async execute({
+    page,
+    limit,
+  }: SearchParams): Promise<ICustomerPaginate> {
     const take = limit;
     const skip = (Number(page) - 1) * take;
     const customers = await this.customersRepository.findAll({

@@ -1,6 +1,6 @@
 import { ICreateCustomer } from '../models/ICreateCustomer';
 import { ICustomer } from '../models/ICustomer';
-import { IListCustomer } from '../models/IListCustomer';
+import { ICustomerPaginate } from '../models/ICustomerPaginate';
 
 export interface SearchParams {
   page: number;
@@ -8,7 +8,7 @@ export interface SearchParams {
   take: number;
 }
 export interface ICustomersRepository {
-  findAll({ page, skip, take }: SearchParams): Promise<IListCustomer>;
+  findAll({ page, skip, take }: SearchParams): Promise<ICustomerPaginate>;
   findByName(name: string): Promise<ICustomer | undefined>;
   findById(id: string): Promise<ICustomer | undefined>;
   findByEmail(email: string): Promise<ICustomer | undefined>;
