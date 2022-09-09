@@ -6,9 +6,9 @@ import isAuthenticated from '@shared/infra/http/middlewares/isAuthenticated';
 
 const ordersRouter = Router();
 const ordersController = new OrdersController();
-
 ordersRouter.use(isAuthenticated);
 
+ordersRouter.get('/', ordersController.index);
 ordersRouter.get(
   '/:id',
   celebrate({
@@ -22,7 +22,7 @@ ordersRouter.post(
   '/',
   celebrate({
     [Segments.BODY]: {
-      customer_id: Joi.string().required(),
+      customer_id: Joi.string().uuid().required(),
       products: Joi.required(),
     },
   }),
