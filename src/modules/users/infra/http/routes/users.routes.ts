@@ -9,10 +9,21 @@ import UserAvatarController from '../controllers/UserAvatarController';
 
 const usersRouter = Router();
 const usersController = new UsersController();
-const userAvatarController = new UserAvatarController();
+const usersAvatarController = new UserAvatarController();
+
 const upload = multer(uploadConfig);
 
 usersRouter.get('/', isAuthenticated, usersController.index);
+usersRouter.get(
+  '/:id',
+  isAuthenticated,
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().uuid().required(),
+    },
+  }),
+  usersController.show,
+);
 usersRouter.post(
   '/',
   celebrate({
@@ -28,7 +39,7 @@ usersRouter.patch(
   '/avatar',
   isAuthenticated,
   upload.single('avatar'),
-  userAvatarController.update,
+  usersAvatarController.update,
 );
 
 export default usersRouter;

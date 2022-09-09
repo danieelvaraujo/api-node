@@ -2,7 +2,6 @@ import { Router } from 'express';
 import { celebrate, Joi, Segments } from 'celebrate';
 
 import ForgotPasswordController from '../controllers/ForgotPasswordController';
-import isAuthenticated from '@shared/infra/http/middlewares/isAuthenticated';
 import ResetPasswordController from '../controllers/ResetPasswordController';
 
 const passwordRouter = Router();
@@ -18,7 +17,6 @@ passwordRouter.post(
   }),
   forgotPasswordController.create,
 );
-
 passwordRouter.post(
   '/reset',
   celebrate({
@@ -28,7 +26,6 @@ passwordRouter.post(
       password_confirmation: Joi.string().required().valid(Joi.ref('password')),
     },
   }),
-  isAuthenticated,
   resetPasswordController.create,
 );
 
