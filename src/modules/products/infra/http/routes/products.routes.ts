@@ -30,13 +30,13 @@ productsRouter.post(
 productsRouter.put(
   '/:id',
   celebrate({
-    [Segments.PARAMS]: {
-      id: Joi.string().uuid().required(),
-    },
     [Segments.BODY]: {
       name: Joi.string().required(),
       price: Joi.number().precision(2).required(),
       quantity: Joi.number().required(),
+    },
+    [Segments.PARAMS]: {
+      id: Joi.string().uuid().required(),
     },
   }),
   productsController.update,
