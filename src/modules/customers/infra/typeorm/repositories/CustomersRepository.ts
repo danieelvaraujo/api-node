@@ -1,5 +1,9 @@
 import { ICreateCustomer } from '@modules/customers/domain/models/ICreateCustomer';
-import { ICustomersRepository } from '@modules/customers/domain/repositories/ICustomersRepository';
+import { IListCustomer } from '@modules/customers/domain/models/IListCustomer';
+import {
+  ICustomersRepository,
+  SearchParams,
+} from '@modules/customers/domain/repositories/ICustomersRepository';
 import { getRepository, Repository } from 'typeorm';
 
 import Customer from '../entities/Customer';
@@ -56,6 +60,27 @@ class CustomersRepository implements ICustomersRepository {
     });
 
     return customer;
+  }
+
+  public async findAll({
+    page,
+    skip,
+    take,
+  }: SearchParams): Promise<IListCustomer> {
+    const [customers, count] = await this.ormRepository
+      .createQueryBuilder()
+      .skip(skip)
+      .take(take)
+      .getManyAndCount();
+
+    const result = {
+      per_page: take,
+      total: count,
+      current_page: page,
+      data: customers,
+    };
+
+    return result;
   }
 }
 
